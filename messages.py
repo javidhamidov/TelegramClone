@@ -15,7 +15,9 @@ class Message:
         flag = True
         while flag:    
             to = int(input("Choose whom do you want to send a message to : "))
-            if to in range(0, n+1):
+            if to == 1:
+                print("You cannot message yourself.")
+            elif to in range(1, n+1):
                 flag = False
             else:
                 print("This user does not exist: ")
@@ -58,17 +60,32 @@ class Message:
         print("N -" + str(n))
         flag = True
         while flag:    
-            frm = int(input("Choose whom do you want to send a message to : "))
-            if frm in range(0, n+1):
+            to = int(input("Choose whom do you want to get a message from : "))
+            if to == 1:
+                print("You cannot get messages from chat with your account.")
+            elif to in range(1, n+1):
                 flag = False
             else:
                 print("This user does not exist: ")
         recievers = []
         for reciever in data:
             recievers.append(reciever)
-        print(recievers[frm-1])
-
-
+        print(recievers[to-1])
+        all_messages = data[self.who_logined][recievers[to-1]]["you"].copy()
+        all_messages += data[self.who_logined][recievers[to-1]]["person"].copy()
+        times = []
+        for i in range(0, len(all_messages)):
+            times.append(all_messages[i]["time"])
+            times.sort()
+        for t in times:
+            for i in range(0, len(all_messages)):
+                if t == all_messages[i]["time"]:
+                    msg = all_messages[i]
+                    if msg in data[self.who_logined][recievers[to-1]]["you"]:
+                        print("You : {}".format(msg["message"]))
+                    elif msg in data[self.who_logined][recievers[to-1]]["person"]:
+                        print("Person : {}".format(msg["message"]))
+                            
 messenger = Message("javid")
-#messenger.sender()
+messenger.sender()
 messenger.all_messages()
