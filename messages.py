@@ -1,91 +1,74 @@
 import time
 import json
+
 class Message:
-    def __init__(self, who_logined):
+    def __init__(self, logined):
+        self.logined = logined
         self.filename = "account_messages.json"
-        self.who_logined = who_logined
-    def sender(self):
+        self.filename2 = "account_password.json"
+    def send(self):
         with open(self.filename) as file:
             data = json.load(file)
-        n = 0
-        for name in data:
-            n += 1
-            print("{}. {}".format(n, name))
-        print("N -" + str(n))
-        flag = True
-        while flag:    
-            to = int(input("Choose whom do you want to send a message to : "))
-            if to == 1:
-                print("You cannot message yourself.")
-            elif to in range(1, n+1):
-                flag = False
+        with open(self.filename2) as file:
+            data2 = json.load(file)
+        all_users = []
+        for dictionary in data2:
+            all_users.append(dictionary["account"])
+        all_users.remove(self.logined)
+        while True:
+            n = 1
+            nums = []
+            for user in all_users:
+                print("{}. {}".format(n, user))
+                nums.append(n)
+                n += 1
+            #Ask whom user want to send the message to
+            try:
+                reciever = int(input("Choose user to send a message : "))
+            except ValueError:
+                print("Number !")
+                continue
+            if reciever in nums:
+                break
             else:
-                print("This user does not exist: ")
-        recievers = []
-        for reciever in data:
-            recievers.append(reciever)
-        print(recievers[to-1])
-        message = input("Enter the message :\n")
-        current = int(time.time())
-        if data[self.who_logined]:
-            if data[self.who_logined][recievers[to-1]]:
-                data[self.who_logined][recievers[to-1]]["you"].append({"message" : message, "time" : current})
-                data[recievers[to-1]][self.who_logined]["person"].append({"message" : message, "time" : current})
-            else:
-                data[self.who_logined][recievers[to-1]]["you"] = []
-                data[self.who_logined][recievers[to-1]]["person"] = []
-                data[self.who_logined][recievers[to-1]]["you"].append({"message" : message, "time" : current})
-                data[recievers[to-1]][self.who_logined]["you"] = []
-                data[recievers[to-1]][self.who_logined]["person"] = []
-                data[recievers[to-1]][self.who_logined]["person"].append({"message" : message, "time" : current})
-        else:
-            data[self.who_logined] = {}
-            data[self.who_logined][recievers[to-1]] = {}
-            data[self.who_logined][recievers[to-1]]["you"] = []
-            data[self.who_logined][recievers[to-1]]["person"] = []
-            data[self.who_logined][recievers[to-1]]["you"].append({"message" : message, "time" : current})
-            data[recievers[to-1]][self.who_logined] = {}
-            data[recievers[to-1]][self.who_logined]["you"] = []
-            data[recievers[to-1]][self.who_logined]["person"] = []
-            data[recievers[to-1]][self.who_logined]["person"].append({"message" : message, "time" : current})
-        with open(self.filename, "w") as file:
+                print("This user does not exist !")
+                continue
+        print(all_users[reciever-1])
+        message = input("Enter your message :\n")
+        msg_info = {"message" : message, "sender" : self.logined, "reciever" : all_users[reciever-1], "time" : int(time.time())}
+        data.append(msg_info)
+        with open(self.filename, 'w') as file:
             json.dump(data, file, indent=4)
-    def all_messages(self):
+    def get(self):
         with open(self.filename) as file:
             data = json.load(file)
-        n = 0
-        for name in data:
-            n += 1
-            print("{}. {}".format(n, name))
-        print("N -" + str(n))
-        flag = True
-        while flag:    
-            to = int(input("Choose whom do you want to get a message from : "))
-            if to == 1:
-                print("You cannot get messages from chat with your account.")
-            elif to in range(1, n+1):
-                flag = False
+        with open(self.filename2) as file:
+            data2 = json.load(file)
+        all_users = []
+        for dictionary in data2:
+            all_users.append(dictionary["account"])
+        all_users.remove(self.logined)
+        while True:
+            n = 1
+            nums = []
+            for user in all_users:
+                print("{}. {}".format(n, user))
+                nums.append(n)
+                n += 1
+            #Ask whom user want to get all the message from
+            try:
+                reciever = int(input("Choose user to get all the message from : "))
+            except ValueError:
+                print("Number !")
+                continue
+            if reciever in nums:
+                break
             else:
-                print("This user does not exist: ")
-        recievers = []
-        for reciever in data:
-            recievers.append(reciever)
-        print(recievers[to-1])
-        all_messages = data[self.who_logined][recievers[to-1]]["you"].copy()
-        all_messages += data[self.who_logined][recievers[to-1]]["person"].copy()
-        times = []
-        for i in range(0, len(all_messages)):
-            times.append(all_messages[i]["time"])
-            times.sort()
-        for t in times:
-            for i in range(0, len(all_messages)):
-                if t == all_messages[i]["time"]:
-                    msg = all_messages[i]
-                    if msg in data[self.who_logined][recievers[to-1]]["you"]:
-                        print("You : {}".format(msg["message"]))
-                    elif msg in data[self.who_logined][recievers[to-1]]["person"]:
-                        print("Person : {}".format(msg["message"]))
-                            
-messenger = Message("javid")
-messenger.sender()
-messenger.all_messages()
+                print("This user does not exist !")
+                continue
+        for message in data:
+            if (all_users[reciever-1] == message["reciever"] and self.logined == message["sender"]) or (all_users[reciever-1] == message["sender"] and self.logined == message["reciever"]):
+                if self.logined == message["sender"]:
+                    print("You : {}".format(message["message"]))
+                elif self.logined == message["reciever"]:
+                    print("Person : {}".format(message["message"]))

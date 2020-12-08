@@ -1,100 +1,20 @@
-{
-    "javid": {
-        "obama": {
-            "you": [
-                {
-                    "message": "Hi",
-                    "time": 12349
-                }
-            ],
-            "person": [
-                {
-                    "message": "hello",
-                    "time": 12345
-                }
-            ]
-        },
-        "ilon_musk": {
-            "you": [
-                {
-                    "message": "Hello. Not much. How about you ?",
-                    "time": 15300
-                }
-            ],
-            "person": [
-                {
-                    "message": "Hello Javid. Whatsup ?",
-                    "time": 15000
-                }
-            ]
-        }
+[
+    {
+        "message": "javid hello",
+        "sender": "java",
+        "reciever": "javid",
+        "time": 1607441628
     },
-    "obama": {
-        "javid": {
-            "you": [
-                {
-                    "message": "hello",
-                    "time": 12345
-                }
-            ],
-            "person": [
-                {
-                    "message": "Hi",
-                    "time": 12340
-                },
-                {
-                    "message": "asgduow",
-                    "time": 1607188978
-                }
-            ]
-        },
-        "ilon_musk": {
-            "you": [
-                {
-                    "message": "Good day , I hope you have something serious for me.",
-                    "time": 16678
-                }
-            ],
-            "person": [
-                {
-                    "message": "Good day",
-                    "time": 16000
-                }
-            ]
-        }
+    {
+        "message": "wafwaf",
+        "sender": "obama",
+        "reciever": "javid",
+        "time": 1607441852
     },
-    "ilon_musk": {
-        "javid": {
-            "you": [
-                {
-                    "message": "Hello Javid. Whatsup ?",
-                    "time": 15000
-                }
-            ],
-            "person": [
-                {
-                    "message": "Hello. Not much. How about you ?",
-                    "time": 15300
-                },
-                {
-                    "message": "Helllloou",
-                    "time": 1607188027
-                }
-            ]
-        },
-        "obama": {
-            "you": [
-                {
-                    "message": "Good day",
-                    "time": 16000
-                }
-            ],
-            "person": [
-                {
-                    "message": "Good day , I hope you have something serious for me.",
-                    "time": 16678
-                }
-            ]
-        }
+    {
+        "message": "Hellloooawdawd",
+        "sender": "javid",
+        "reciever": "obama",
+        "time": 1607441931
     }
-}
+]
